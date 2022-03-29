@@ -74,10 +74,10 @@ check_login();
 										<p class="links cl-effect-1">
 											<a href="doctor-list.php">
 												<?php $result = mysqli_query($con,"SELECT * FROM doctor ");
-$num_rows = mysqli_num_rows($result);
+$num_active_rooms = mysqli_num_rows($result);
 {
 ?>
-												Room in active: <?php echo htmlentities($num_rows);  } ?> / 10
+												Room in active: <?php echo htmlentities($num_active_rooms);  } ?> / 10
 											</a>
 										</p>
 									</div>
@@ -95,10 +95,10 @@ $num_rows = mysqli_num_rows($result);
 										<p class="links cl-effect-1">
 											<a href="manager-list.php">
 												<?php $result = mysqli_query($con,"SELECT * FROM manager ");
-$num_rows = mysqli_num_rows($result);
+$num_people = mysqli_num_rows($result);
 {
 ?>
-												Present: <?php echo htmlentities($num_rows);  } ?>
+												Present: <?php echo htmlentities($num_people);  } ?>
 											</a>
 										</p>
 									</div>
@@ -119,10 +119,10 @@ $num_rows = mysqli_num_rows($result);
 										<p class="links cl-effect-1">
 											<a href="nurse-list.php">
 												<?php $result = mysqli_query($con,"SELECT * FROM nurse ");
-$num_rows = mysqli_num_rows($result);
+$num_power = mysqli_num_rows($result);
 {
 ?>
-												In use in total: <?php echo htmlentities($num_rows);  } ?> kW
+												In use in total: <?php echo htmlentities($num_power);  } ?> kW
 											</a>
 										</p>
 									</div>

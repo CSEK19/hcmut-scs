@@ -104,15 +104,15 @@ $ret=mysqli_query($con,"select * from PATIENT_TEST_RESULTS  where Patient_no='$v
 								<table id="datatable" class="table table-bordered dt-responsive nowrap"
 									style="border-collapse: collapse; border-spacing: 10; width: 100%; text-align:center">
 									<tr align="center">
-										<th colspan="8" style="text-align:left">Room History</th>
+										<th colspan="8" style="text-align:left">Room Record History</th>
 									</tr>
 									<tr>
 										<th style="text-align:center">#</th>
 										<th style="text-align:center">Timestamp</th>
-										<th style="text-align:center">Temperature</th>
-										<th style="text-align:center">People</th>
-										<th style="text-align:center">Power Usage</th>
-										<th style="text-align:center">Warning Mark</th>
+										<th style="text-align:center">Number People</th>
+										<th style="text-align:center">Light System Status</th>
+										<th style="text-align:center">Door Status</th>
+										<th style="text-align:center">Image</th>
 
 									</tr>
 									<?php  
@@ -134,34 +134,6 @@ while ($row=mysqli_fetch_array($ret)) {
 $ret=mysqli_query($con,"select * from TREATS  where Patient_no='$vid'");
 $cnt=1;
 ?>
-								<table id="datatable_2" class="table table-bordered dt-responsive nowrap"
-									style="border-collapse: collapse; border-spacing: 10; width: 100%; text-align:center">
-									<tr align="center">
-										<th colspan="8" style="text-align:left">Room Facilities</th>
-									</tr>
-									<tr>
-										<th style="text-align:center;">#</th>
-										<th style="text-align:center">Equipment ID</th>
-										<th style="text-align:center">Equipment Name</th>
-										<th style="text-align:center">Installation Date</th>
-										<th style="text-align:center">Uninstall Date</th>
-										<th style="text-align:center">Status</th>
-
-									</tr>
-									<?php  
-while ($row=mysqli_fetch_array($ret)) { 
-  ?>
-									<tr>
-										<td><?php echo $cnt;?></td>
-										<td><?php  echo $row['Doctor_ID'];?></td>
-										<td><?php  echo $row['Medication_code'];?></td>
-										<td><?php  echo $row['Start_date'];?></td>
-										<td><?php  echo $row['End_date'];?></td>
-										<td><?php  echo $row['Treat_result'];?></td>
-									</tr>
-									<?php $cnt=$cnt+1;} ?>
-								</table>
-
 								<div id="chart-container">
 									<canvas id="graphRes"></canvas>
 									<canvas id="graphPCR"></canvas>
