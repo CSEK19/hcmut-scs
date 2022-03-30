@@ -19,6 +19,8 @@ check_login();
 <script type="text/javascript" src="js/chart.js"></script>
 <script type="text/javascript" src="js/chart.min.js"></script>
 <script src="js/canvasjs.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
 
 <head>
 	<title>Manager | Manage Room</title>
@@ -43,6 +45,7 @@ check_login();
 
 <body>
 	<div id="app">
+		<button id = "tmp_button"> Button</button>
 		<?php include('include/sidebar.php');?>
 		<div class="app-content">
 			<?php include('include/header.php');?>
@@ -69,12 +72,7 @@ check_login();
 							<div class="col-md-12">
 								<h5 class="over-title margin-bottom-15">Room <span class="text-bold">Detail</span>
 								</h5>
-								<?php
-                               $vid=$_GET['viewid'];
-                               $ret=mysqli_query($con,"select * from patient where Patient_no='$vid'");
-$cnt=1;
-while ($row=mysqli_fetch_array($ret)) {
-                               ?>
+
 								<table border="1" class="table table-bordered">
 									<tr align="center">
 										<td colspan="4" style="font-size:20px;color:blue"><b>
@@ -83,31 +81,19 @@ while ($row=mysqli_fetch_array($ret)) {
 
 									<tr>
 										<th scope>Room ID</th>
-										<td><?php  echo $row['Patient_no'];?></td>
-										<th scope>Status</th>
-										<td><?php  echo $row['Phone_no'];?></td>
+										<td id = "room_id"></td>
 									</tr>
 									<tr>
-										<th scope>Rome Name</th>
-										<td><?php  echo $row['Patient_name'];?></td>
-										<th>People</th>
-										<td><?php  echo $row['ID_no'];?></td>
+										<th scope>Room Name</th>
+										<td id="room_name"></td>
 									</tr>
-
-									<?php }?>
 								</table>
-
-
-								<?php  
-$ret=mysqli_query($con,"select * from PATIENT_TEST_RESULTS  where Patient_no='$vid'");
-?>
 								<table id="datatable" class="table table-bordered dt-responsive nowrap"
 									style="border-collapse: collapse; border-spacing: 10; width: 100%; text-align:center">
 									<tr align="center">
 										<th colspan="8" style="text-align:left">Room Record History</th>
 									</tr>
 									<tr>
-										<th style="text-align:center">#</th>
 										<th style="text-align:center">Timestamp</th>
 										<th style="text-align:center">Number People</th>
 										<th style="text-align:center">Light System Status</th>
@@ -115,33 +101,14 @@ $ret=mysqli_query($con,"select * from PATIENT_TEST_RESULTS  where Patient_no='$v
 										<th style="text-align:center">Image</th>
 
 									</tr>
-									<?php  
-while ($row=mysqli_fetch_array($ret)) { 
-  ?>
 									<tr>
-										<td><?php echo $cnt;?></td>
-										<td><?php  echo $row['SPO2'];?></td>
-										<td><?php  echo $row['Respiratory_rate'];?></td>
-										<td><?php  echo $row['PCR_test'];?></td>
-										<td><?php  echo $row['PCR_ct_value'];?></td>
-										<td><?php  echo $row['Warning_mark'];?></td>
+										<td id = "timestamp"></td>
+										<td id = "num_people"></td>
+										<td id = "light_status"></td>
+										<td id = "door_status"></td>
+										<td><button  id="image_button" data-toggle="modal" data-target="#myModal">Show image</button></td>
 									</tr>
-									<?php $cnt=$cnt+1;} ?>
 								</table>
-								<br>
-								<br>
-								<?php  
-$ret=mysqli_query($con,"select * from TREATS  where Patient_no='$vid'");
-$cnt=1;
-?>
-								<div id="chart-container">
-									<canvas id="graphRes"></canvas>
-									<canvas id="graphPCR"></canvas>
-									<canvas id="graphQuick"></canvas>
-
-								</div>
-
-
 							</div>
 						</div>
 					</div>
@@ -149,6 +116,8 @@ $cnt=1;
 			</div>
 		</div>
 	</div>
+	</div>
+	<div id="confirm">
 	</div>
 	<!-- start: FOOTER -->
 	<?php #include('include/footer.php');?>
@@ -186,132 +155,79 @@ $cnt=1;
 			Main.init();
 			FormElements.init();
 		});
-
-		$(document).ready(function () {
-			showGraphPCR();
-			showGraphQuick();
-			showGraphRes();
-		});
-
-		function showGraphRes() {
-			$.post("data-res.php?id=<?php echo $vid;?>",
-				function (datapcr) {
-					var labels = [];
-					var result = [];
-					for (var i in datapcr) {
-						labels.push(datapcr[i].Respiratory_rate);
-						result.push(datapcr[i].size_res);
-					}
-					var ctx = $("#graphRes");
-					var myChart = new Chart(ctx, {
-						type: 'line',
-						data: {
-							labels: labels,
-							datasets: [{
-								label: 'Respiratory rate',
-								data: result,
-								borderColor: [
-									'rgba(255, 99, 132, 1)',
-									'rgba(54, 162, 235, 1)',
-									'rgba(255, 206, 86, 1)',
-								],
-								backgroundColor: [
-									'rgba(75, 192, 192, 0.2)',
-									'rgba(153, 102, 255, 0.2)',
-									'rgba(255, 159, 64, 0.2)'
-								],
-								borderWidth: 1
-							}],
-						},
-						options: {
-							responsive: true,
-							plugins: {
-								title: {
-									display: true,
-									text: 'Respiratory rate'
-								}
-							}
-						}
-					});
-				});
-		}
-
-
-		function showGraphPCR() {
-			$.post("data-pcr.php?id=<?php echo $vid;?>",
-				function (datapcr) {
-					var labels = [];
-					var result = [];
-					for (var i in datapcr) {
-						labels.push(datapcr[i].PCR_ct_value);
-						result.push(datapcr[i].size_pcr);
-					}
-					var ctx = $("#graphPCR");
-					var myChart = new Chart(ctx, {
-						type: 'pie',
-						data: {
-							labels: labels,
-							datasets: [{
-								label: 'PCR CT Value',
-								data: result,
-								borderColor: ["rgba(217, 83, 79,1)", "rgba(240, 173, 78, 1)",
-									"rgba(92, 184, 92, 1)"
-								],
-								backgroundColor: ["rgba(217, 83, 79,0.2)", "rgba(240, 173, 78, 0.2)",
-									"rgba(92, 184, 92, 0.2)"
-								],
-							}]
-						},
-						options: {
-							plugins: {
-								title: {
-									display: true,
-									text: 'PCR Test Value'
-								}
-							}
-						}
-					});
-				});
-		}
-
-		function showGraphQuick() {
-			$.post("data-quick.php?id=<?php echo $vid;?>",
-				function (datapcr) {
-					var labels = [];
-					var result = [];
-					for (var i in datapcr) {
-						labels.push(datapcr[i].Quick_ct_value);
-						result.push(datapcr[i].size_quick);
-					}
-					var ctx = $("#graphQuick");
-					var myChart = new Chart(ctx, {
-						type: 'radar',
-						data: {
-							labels: labels,
-							datasets: [{
-								label: 'Quick CT Value',
-								data: result,
-								borderColor: ["rgba(242,194,165,1))", "rgba(240, 173, 78, 1)",
-									"rgba(217, 83, 79,1)"
-								],
-								backgroundColor: ["rgba(54, 162, 235, 0.2)", "rgba(240, 173, 78, 0.2)",
-									"rgba(92, 184, 92, 0.2)"
-								],
-							}]
-						},
-						options: {
-							responsive: true,
-							plugins: {
-								title: {
-									display: true,
-									text: 'Quick Test Value'
-								}
-							}
-						}
-					});
-				});
-		}
 	</script>
+	<script type="module" > 
+		import { collection, getDoc, getDocs, getFirestore, doc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"
+
+		const firebaseConfig = {
+			apiKey: "AIzaSyBSt9DbBuwEPjJglqs4YO_toKEvgnn47Vw",
+			authDomain: "smartiot-4467f.firebaseapp.com",
+			projectId: "smartiot-4467f",
+			storageBucket: "smartiot-4467f.appspot.com",
+			messagingSenderId: "951613520553",
+			appId: "1:951613520553:web:9ae29d867493555d3507b8",
+			measurementId: "G-C2RLD605K5"
+		}
+
+		const app = initializeApp(firebaseConfig)
+		const db = getFirestore(app)
+
+		let room_id = document.getElementById("room_id")
+		let room_name = document.getElementById("room_name")
+		let timestamp = document.getElementById("timestamp")
+		let num_people = document.getElementById("num_people")
+		let light_status = document.getElementById("light_status")
+		let door_status = document.getElementById("door_status")
+		let image = document.getElementById("image")
+		
+
+		async function GetRoom() {
+			var ref = doc(db, "Room", "1")
+			console.log(ref)
+			const docSnap = await getDoc(ref)
+			console.log(docSnap)
+			if (docSnap.exists()) {
+				let data = docSnap.data()
+
+				room_id.innerHTML = data['Room id']
+				room_name.innerHTML = data['Room name']
+
+				let record = data['Records']
+				let size = record.length
+				record = record[size - 1]
+
+				timestamp.innerHTML = record['Time stamp'].toDate().toString().split('GMT')[0]
+				light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
+				num_people.innerHTML = record['Number of people']
+				door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
+			}
+		}
+		async function GetImage(){
+			var ref = doc(db, "Room", "1")
+			const docSnap = await getDoc(ref)
+
+			let confirm = document.getElementById("confirm")
+
+			if(docSnap.exists()){
+				let data = docSnap.data()
+				let tmp = await getDoc(data['Frame'])
+
+				confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + tmp.data()['frame64'] + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
+
+				var confirmBox = $("#confirm");
+				confirmBox.find(".message").text("OK");
+				confirmBox.find(".yes").unbind().click(function () {
+					confirmBox.hide();
+				});
+				confirmBox.find(".yes").click("YES");
+				confirmBox.show();
+			}
+			
+		}
+		image_button.addEventListener("onClick", GetImage())
+		tmp_button.addEventListener("onClick", GetRoom())
+	</script>  
 	<!-- end: JavaScript Event Handlers for this page -->
 	<!-- end: CLIP-TWO JAVASCRIPTS -->
 </body>

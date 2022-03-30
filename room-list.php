@@ -31,6 +31,7 @@ check_login();
 </head>
 
 <body>
+	<a id="button" class="btn btn-primary"href="room-list.php" target=_blank >Button</a>
 	<div id="app">
 		<?php include('include/sidebar.php');?>
 		<div class="app-content">
@@ -59,37 +60,22 @@ check_login();
 								<h5 class="over-title margin-bottom-15">Room <span class="text-bold">List</span>
 								</h5>
 
+								
 								<table class="table table-hover" id="sample-table-1">
 									<thead>
 										<tr>
 											<th class="center">#</th>
 											<th>Room ID</th>
 											<th>Room Name</th>
-											<th>Status</th>
-											<th>People</th>
-											<th>Action</th>
 										</tr>
 									</thead>
-									<tbody>
-										<?php
-
-$sql=mysqli_query($con,"select * from patient");
-$cnt=1;
-while($row=mysqli_fetch_array($sql))
-{
-?>
+									<tbody id = "room_list">	
 										<tr>
-											<td class="center"><?php echo $cnt;?>.</td>
-											<td class="hidden-xs"><?php echo $row['Patient_no'];?></td>
-											<td><?php echo $row['Patient_name'];?></td>
-											<td><?php echo $row['Phone_no'];?></td>
-											<td><?php echo $row['ID_no'];?>
-											<td><a href="room-view.php?viewid=<?php echo $row['Patient_no'];?>"><i
-														class="fa fa-eye" style="margin:auto"></i></a></td>
+											<td class="center">1.</td>
+											<td class="hidden-xs" id = "room_list_id"></td>
+											<td id = "room_list_name"></td>
 										</tr>
-										<?php 
-$cnt=$cnt+1;
- }?></tbody>
+									</tbody>
 								</table>
 							</div>
 						</div>
@@ -135,6 +121,46 @@ $cnt=$cnt+1;
 			Main.init();
 			FormElements.init();
 		});
+	</script>
+	<script type = "module" >
+		import { collection, getDoc, getDocs, getFirestore, doc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"
+
+		const firebaseConfig = {
+			apiKey: "AIzaSyBSt9DbBuwEPjJglqs4YO_toKEvgnn47Vw",
+			authDomain: "smartiot-4467f.firebaseapp.com",
+			projectId: "smartiot-4467f",
+			storageBucket: "smartiot-4467f.appspot.com",
+			messagingSenderId: "951613520553",
+			appId: "1:951613520553:web:9ae29d867493555d3507b8",
+			measurementId: "G-C2RLD605K5"
+		}
+
+		const app = initializeApp(firebaseConfig)
+		const db = getFirestore(app)
+
+		let room_list_id = document.getElementById("room_list_id")
+		let room_list_name = document.getElementById("room_list_name")
+
+		async function GetRoomList() {
+			
+			var ref = doc(db, "Room", "1")
+			const docSnap = await getDoc(ref)
+
+			if (docSnap.exists()) {
+				let data = docSnap.data()
+				room_list_id.innerHTML = data['Room id']
+				room_list_name.innerHTML = data['Room name']
+			}
+		}
+
+		button.addEventListener("onClick", GetRoomList())
+	</script>
+	<script>
+		function GetRoomList(){
+			window.location.href = 'room-view.php';
+		}
+		button.addEventListener("onClick", GetRoomList())
 	</script>
 	<!-- end: JavaScript Event Handlers for this page -->
 	<!-- end: CLIP-TWO JAVASCRIPTS -->

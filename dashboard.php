@@ -128,50 +128,6 @@ $num_power = mysqli_num_rows($result);
 									</div>
 								</div>
 							</div>
-<!-- 
-							<div class="col-sm-4">
-								<div class="panel panel-white no-radius text-center">
-									<div class="panel-body">
-										<span class="fa-stack fa-2x"> <i
-												class="fa fa-square fa-stack-2x text-primary"></i> <i
-												class="fa fa-smile-o fa-stack-1x fa-inverse"></i> </span>
-										<h2 class="StepTitle">Manage Patients</h2>
-
-										<p class="links cl-effect-1">
-											<a href="patient-list.php">
-												<?php $result = mysqli_query($con,"SELECT * FROM patient ");
-$num_rows = mysqli_num_rows($result);
-{
-?>
-												Total Patient :<?php echo htmlentities($num_rows);  } ?>
-											</a>
-										</p>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-sm-4">
-								<div class="panel panel-white no-radius text-center">
-									<div class="panel-body">
-										<span class="fa-stack fa-2x"> <i
-												class="fa fa-square fa-stack-2x text-primary"></i> <i
-												class="fa fa-user fa-stack-1x fa-inverse"></i> </span>
-										<h2 class="StepTitle">Manage Volunteers</h2>
-
-										<p class="links cl-effect-1">
-											<a href="volunteer-list.php">
-												<?php $result = mysqli_query($con,"SELECT * FROM volunteer ");
-$num_rows = mysqli_num_rows($result);
-{
-?>
-												Total Volunteers :<?php echo htmlentities($num_rows);  } ?>
-											</a>
-										</p>
-									</div>
-								</div>
-							</div>
- -->
-
 
 
 
@@ -219,6 +175,45 @@ $num_rows = mysqli_num_rows($result);
 					FormElements.init();
 				});
 			</script>
+
+			<script type="module">
+				import { collection, getDoc, getDocs, getFirestore, doc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
+				import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"
+
+				const firebaseConfig = {
+					apiKey: "AIzaSyBSt9DbBuwEPjJglqs4YO_toKEvgnn47Vw",
+					authDomain: "smartiot-4467f.firebaseapp.com",
+					projectId: "smartiot-4467f",
+					storageBucket: "smartiot-4467f.appspot.com",
+					messagingSenderId: "951613520553",
+					appId: "1:951613520553:web:9ae29d867493555d3507b8",
+					measurementId: "G-C2RLD605K5"
+				}
+
+				const app = initializeApp(firebaseConfig)
+				const db = getFirestore(app)
+
+				let num_active = document.getElementById("num_active")
+				let num_people = document.getElementById("num_people")
+				let num_kw = document.getElementById("num_kw")
+
+				async function GetDoc() {
+					var ref = doc(db, "Room", "1")
+					const docSnap = await getDoc(ref)
+
+					if (docSnap.exists()) {
+						let record = docSnap.data()['Records']
+						let size = record.length
+						num_active.innerHTML = record[size-1]['Door status'] 
+						
+						console.log()
+					}
+				}
+
+				tmp_button.addEventListener("click", GetDoc)
+			</script>
+
+
 			<!-- end: JavaScript Event Handlers for this page -->
 			<!-- end: CLIP-TWO JAVASCRIPTS -->
 </body>
