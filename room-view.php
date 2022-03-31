@@ -99,14 +99,19 @@ check_login();
 										<th style="text-align:center">Light System Status</th>
 										<th style="text-align:center">Door Status</th>
 										<th style="text-align:center">Image</th>
-
+										<th style="text-align:center">Light System Controller</th>
 									</tr>
 									<tr>
 										<td id = "timestamp"></td>
 										<td id = "num_people"></td>
 										<td id = "light_status"></td>
 										<td id = "door_status"></td>
-										<td><button  id="image_button" data-toggle="modal" data-target="#myModal">Show image</button></td>
+										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal">Show image</button></td>
+										<td>
+											<button class="btn btn-success" id="light_on_button">ON</button>
+											<button class="btn btn-danger" id="light_off_button">OFF</button>
+
+										</td>
 									</tr>
 								</table>
 							</div>
@@ -172,6 +177,7 @@ check_login();
 
 		const app = initializeApp(firebaseConfig)
 		const db = getFirestore(app)
+		let first_time = true 
 
 		let room_id = document.getElementById("room_id")
 		let room_name = document.getElementById("room_name")
@@ -183,26 +189,31 @@ check_login();
 		
 
 		async function GetRoom() {
-			var ref = doc(db, "Room", "1")
-			console.log(ref)
-			const docSnap = await getDoc(ref)
-			console.log(docSnap)
-			if (docSnap.exists()) {
-				let data = docSnap.data()
+			if (first_time === true)
+			{
+				first_time = false;
+				var ref = doc(db, "Room", "1")
+				console.log(ref)
+				const docSnap = await getDoc(ref)
+				console.log(docSnap)
+				if (docSnap.exists()) {
+					let data = docSnap.data()
 
-				room_id.innerHTML = data['Room id']
-				room_name.innerHTML = data['Room name']
+					room_id.innerHTML = data['Room id']
+					room_name.innerHTML = data['Room name']
 
-				let record = data['Records']
-				let size = record.length
-				record = record[size - 1]
+					let record = data['Records']
+					let size = record.length
+					record = record[size - 1]
 
-				timestamp.innerHTML = record['Time stamp'].toDate().toString().split('GMT')[0]
-				light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
-				num_people.innerHTML = record['Number of people']
-				door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
-			}
+					timestamp.innerHTML = record['Time stamp'].toDate().toString().split('GMT')[0]
+					light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
+					num_people.innerHTML = record['Number of people']
+					door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
+				}
+			}	
 		}
+
 		async function GetImage(){
 			var ref = doc(db, "Room", "1")
 			const docSnap = await getDoc(ref)
@@ -223,10 +234,13 @@ check_login();
 				confirmBox.find(".yes").click("YES");
 				confirmBox.show();
 			}
-			
 		}
-		image_button.addEventListener("onClick", GetImage())
+		
+
 		tmp_button.addEventListener("onClick", GetRoom())
+		image_button.addEventListener("onClick", GetImage())
+
+
 	</script>  
 	<!-- end: JavaScript Event Handlers for this page -->
 	<!-- end: CLIP-TWO JAVASCRIPTS -->
