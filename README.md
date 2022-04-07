@@ -1,2 +1,2 @@
-# scs
+# Smart Classroom System 
  
