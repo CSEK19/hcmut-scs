@@ -1,9 +1,9 @@
 <?php
-session_start();
-error_reporting(0);
-include('include/config.php');
-include('include/checklogin.php');
-check_login();
+// session_start();
+// error_reporting(0);
+// include('include/config.php');
+// include('include/checklogin.php');
+// check_login();
 ?>
 
 <!DOCTYPE html>
@@ -157,10 +157,10 @@ check_login();
 		button.addEventListener("onClick", GetRoomList())
 	</script>
 	<script>
-		function GetRoomList(){
-			window.location.href = 'room-view.php';
-		}
-		button.addEventListener("onClick", GetRoomList())
+		// function GetRoomList(){
+		// 	window.location.href = 'room-view.php';
+		// }
+		// button.addEventListener("onClick", GetRoomList())
 	</script>
 	<!-- end: JavaScript Event Handlers for this page -->
 	<!-- end: CLIP-TWO JAVASCRIPTS -->
