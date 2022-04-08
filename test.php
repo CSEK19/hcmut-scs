@@ -8,7 +8,7 @@
 </style>
 
 <script type="text/javascript" src="js/chart.js"></script>
-<!-- <script type="text/javascript" src="js/chart.min.js"></script> -->
+<script type="text/javascript" src="js/chart.min.js"></script>
 <script src="js/canvasjs.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
@@ -34,6 +34,7 @@
 	<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
 </head>
 
+
 <script type="text/javascript">
 		// let light_on = document.getElementById("light_on_button")
 		// let light_off = document.getElementById("light_off_button")
@@ -46,7 +47,7 @@
 					'Content-Type': 'application/json',
 					// 'Host': 'io.adafruit.com',
 					// 'Content-Length': 24,
-					'X-AIO-Key': "<Adafruit key>"
+					'X-AIO-Key': "aio_eDMp38Oe11gDkcPBS0KU3ixwmfFh"
 				},
 				data: JSON.stringify(data),
 				success: function(data, textStatus, jQxhr) {
@@ -68,28 +69,17 @@
 			ControlLight(url, {"value": 0});
 		}
 		
-		var tmp = "";
 		// light_on.addEventListener("click", TurnOnLight())
 		// light_off.addEventListener("onClick", TurnOffLight);
-		function ShowImage(){
-			let confirm = document.getElementById("confirm")
-			confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + tmp + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
-			var confirmBox = $("#confirm");
-				confirmBox.find(".message").text("OK");
-				confirmBox.find(".yes").unbind().click(function () {
-					confirmBox.hide();
-				});
-				confirmBox.find(".yes").click("YES");
-				confirmBox.show();
-		}
 	</script>
 
 
 <body>
 	<div id="app">
-		<?php include('include/sidebar.php');?>
+        <!-- <button id = "tmp_button"> Button</button> -->
+        <?php include('include/sidebar.php');?>
 		<div class="app-content">
-			<?php include('include/header.php');?>
+            <?php include('include/header.php');?>
 			<div class="main-content">
 				<div class="wrap-content container" id="container">
 					<!-- start: PAGE TITLE -->
@@ -132,7 +122,7 @@
 								<table id="datatable" class="table table-bordered dt-responsive nowrap"
 									style="border-collapse: collapse; border-spacing: 10; width: 100%; text-align:center">
 									<tr align="center">
-										<th colspan="8" style="text-align:left">Room Status</th>
+										<th colspan="8" style="text-align:left">Room Record History</th>
 									</tr>
 									<tr>
 										<th style="text-align:center">Timestamp</th>
@@ -147,7 +137,7 @@
 										<td id = "num_people"></td>
 										<td id = "light_status"></td>
 										<td id = "door_status"></td>
-										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal" onclick="ShowImage()">Show image</button></td>
+										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal">Show image</button></td>
 										<td>
 											<button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
 											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button>
@@ -166,11 +156,11 @@
 	<div id="confirm">
 	</div>
 	<!-- start: FOOTER -->
-	<?php #include('include/footer.php');?>
+
 	<!-- end: FOOTER -->
 
 	<!-- start: SETTINGS -->
-	<?php include('include/setting.php');?>
+
 
 	<!-- end: SETTINGS -->
 	</div>
@@ -228,7 +218,6 @@
 		let door_status = document.getElementById("door_status")
 		let image = document.getElementById("image_button")
 		let light = document.getElementById("light")
-		// var tmp = "";
 
 		const check = onSnapshot(collection(db, "Room"), (snapshot) => {
             if (snapshot.docs.length > 0) {
@@ -247,27 +236,29 @@
 					light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
 					num_people.innerHTML = record['Number of people']
 					door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
+					
+					// update image
+					confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + tmp.data()['frame64'] + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
                 })
             }
 
         });
-		
-	
+
+
 		const checkImage = onSnapshot(collection(db, "Frame"), (snapshot) => {
             if (snapshot.docs.length > 0) {
                 snapshot.docs.forEach(doc => {
                     // doc is a DocumentSnapshot with actual data
                     const data = doc.data();
-					console.log('New frame')
-					tmp = data['frame64']
-					// console.log(frame)
+
+					let frame = data['frame64']
+
 					// update image
-					// tmp = frame
-					// confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + frame + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
+					confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + frame + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
                 })
             }
-		});
 
+        });
 		async function GetRoom() {
 			if (first_time === true)
 			{
@@ -294,13 +285,37 @@
 			}	
 		}
 
+		async function GetImage(){
+			var ref = doc(db, "Room", "1")
+			const docSnap = await getDoc(ref)
+
+			let confirm = document.getElementById("confirm")
+
+			if(docSnap.exists()){
+				let data = docSnap.data()
+				let tmp = await getDoc(data['Frame'])
+
+				confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + tmp.data()['frame64'] + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
+
+				var confirmBox = $("#confirm");
+				confirmBox.find(".message").text("OK");
+				confirmBox.find(".yes").unbind().click(function () {
+					confirmBox.hide();
+				});
+				confirmBox.find(".yes").click("YES");
+				confirmBox.show();
+			}
+		}
+
+		// tmp_button.addEventListener("onClick", GetRoom())
+		image_button.addEventListener("onClick", GetImage())
 
 
-		// image_button.addEventListener("onClick", GetImage())
+    </script>
 
+    <script>
 
-	</script>
-
+    </script>
 	<!-- end: JavaScript Event Handlers for this page -->
 	<!-- end: CLIP-TWO JAVASCRIPTS -->
 </body>
