@@ -157,10 +157,10 @@ check_login();
 		button.addEventListener("onClick", GetRoomList())
 	</script>
 	<script>
-		function GetRoomList(){
+		function GetRoomView(){
 			window.location.href = 'room-view.php';
 		}
-		button.addEventListener("onClick", GetRoomList())
+		button.addEventListener("onClick", GetRoomView())
 	</script>
 	<!-- end: JavaScript Event Handlers for this page -->
 	<!-- end: CLIP-TWO JAVASCRIPTS -->
