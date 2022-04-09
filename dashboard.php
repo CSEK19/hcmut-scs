@@ -61,7 +61,7 @@
 										<span class="fa-stack fa-2x"> <i
 												class="fa fa-square fa-stack-2x text-primary"></i> <i
 												class="fa fa-users fa-stack-1x fa-inverse"></i> </span>
-										<h2 class="StepTitle">Active Room</h2>
+										<h2 class="StepTitle">Total People</h2>
 
 										<p class="links cl-effect-1">
 											<a href="doctor-list.php">
@@ -69,7 +69,7 @@
 $num_active_rooms = mysqli_num_rows($result);
 {
 ?>
-												Room in active: <?php echo htmlentities($num_active_rooms);  } ?> / 10
+												Present: <?php echo htmlentities($num_active_rooms);  } ?> / 10
 											</a>
 										</p>
 									</div>
@@ -82,22 +82,42 @@ $num_active_rooms = mysqli_num_rows($result);
 										<span class="fa-stack fa-2x"> <i
 												class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa   fa-desktop
  fa-stack-1x fa-inverse"></i> </span>
-										<h2 class="StepTitle">People</h2>
+										<h2 class="StepTitle">Room Active</h2>
 
 										<p class="links cl-effect-1">
-											<a href="manager-list.php">
+											<a href="#">
 												<?php $result = mysqli_query($con,"SELECT * FROM manager ");
 $num_people = mysqli_num_rows($result);
 {
 ?>
-												Present: <?php echo htmlentities($num_people);  } ?>
+												In use: <?php echo htmlentities($num_people);} ?> / 10
 											</a>
 										</p>
 									</div>
 								</div>
 							</div>
 
+							<div class="col-sm-4">
+								<div class="panel panel-white no-radius text-center">
+									<div class="panel-body">
+										<span class="fa-stack fa-2x"> <i
+												class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa   fa-calendar
+ fa-stack-1x fa-inverse"></i> </span>
+										<h2 class="StepTitle">Average People</h2>
 
+										<p class="links cl-effect-1">
+											<a href="#">
+												<?php $result = mysqli_query($con,"SELECT * FROM manager ");
+$num_people = mysqli_num_rows($result);
+{
+?>
+												Weekly: <?php echo htmlentities($num_people);} ?> | Monthly: 
+											</a>
+										</p>
+									</div>
+								</div>
+							</div>
+							
 
 
 							<div class="col-sm-4">
@@ -120,6 +140,8 @@ $num_power = mysqli_num_rows($result);
 									</div>
 								</div>
 							</div>
+
+
 
 
 

@@ -155,6 +155,27 @@
 										</td>
 									</tr>
 								</table>
+
+								<table id="datatable" class="table table-bordered dt-responsive nowrap"
+									style="border-collapse: collapse; border-spacing: 10; width: 100%; text-align:center">
+									<tr align="center">
+										<th colspan="8" style="text-align:left">Statistics Room Data</th>
+									</tr>
+									<tr>
+										<th style="text-align:center">Average People Per Week</th>
+										<th style="text-align:center">Average People Per Month</th>
+										<th style="text-align:center">Total time inuse</th>
+									</tr>
+									<tr>
+										<td id = "ave_people_week"></td>
+										<td id = "ave_people_month"></td>
+										<td id = "total_time_inuse"></td>
+										</td>
+									</tr>
+								</table>
+								<div class="d-grid">
+  									<button type="button" id="report_button" class="btn btn-info btn-block">Generate report</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -293,8 +314,6 @@
 				}
 			}	
 		}
-
-
 
 		// image_button.addEventListener("onClick", GetImage())
 
