@@ -66,6 +66,7 @@
 										<p class="links cl-effect-1">
 											<a href="#">
 												Present: 
+												<td id = "total_people"></td>
 											</a>
 										</p>
 									</div>
@@ -82,7 +83,9 @@
 
 										<p class="links cl-effect-1">
 											<a href="#">
-												In use: / 10
+												In use: 
+												<td id = "num_active_room"></td>
+												/ 10
 											</a>
 										</p>
 									</div>
@@ -99,7 +102,13 @@
 
 										<p class="links cl-effect-1">
 											<a href="#">
-												Weekly: | Monthly: 
+												Weekly: 
+												<td id = "ave_people_week"></td>
+											</a>
+											|
+											<a href="#">
+												Monthly:
+												<td id = "ave_people_month"></td> 
 											</a>
 										</p>
 									</div>
@@ -118,7 +127,9 @@
 
 										<p class="links cl-effect-1">
 											<a href="#">
-												In use in total: kW
+												In use in total: 
+												<td id = "total_power"></td>
+												kW
 											</a>
 										</p>
 									</div>
