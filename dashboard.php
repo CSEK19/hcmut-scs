@@ -65,7 +65,7 @@
 
 										<p class="links cl-effect-1">
 											<a href="doctor-list.php">
-												Present: <?php echo htmlentities($num_active_rooms); ?>
+												Present: 
 											</a>
 										</p>
 									</div>
@@ -82,7 +82,7 @@
 
 										<p class="links cl-effect-1">
 											<a href="#">
-												In use: <?php echo htmlentities($num_people); ?> / 10
+												In use: / 10
 											</a>
 										</p>
 									</div>
@@ -99,7 +99,7 @@
 
 										<p class="links cl-effect-1">
 											<a href="#">
-												Weekly: <?php echo htmlentities($num_people);?> | Monthly: 
+												Weekly: | Monthly: 
 											</a>
 										</p>
 									</div>
@@ -118,7 +118,7 @@
 
 										<p class="links cl-effect-1">
 											<a href="nurse-list.php">
-												In use in total: <?php echo htmlentities($num_power);?> kW
+												In use in total: kW
 											</a>
 										</p>
 									</div>
