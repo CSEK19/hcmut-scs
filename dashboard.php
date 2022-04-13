@@ -65,7 +65,7 @@
 
 										<p class="links cl-effect-1">
 											<a href="doctor-list.php">
-												Present: <?php echo htmlentities($num_active_rooms); ?> / 10
+												Present: <?php echo htmlentities($num_active_rooms); ?>
 											</a>
 										</p>
 									</div>
@@ -82,11 +82,7 @@
 
 										<p class="links cl-effect-1">
 											<a href="#">
-												<?php $result = mysqli_query($con,"SELECT * FROM manager ");
-$num_people = mysqli_num_rows($result);
-{
-?>
-												In use: <?php echo htmlentities($num_people);} ?> / 10
+												In use: <?php echo htmlentities($num_people); ?> / 10
 											</a>
 										</p>
 									</div>
