@@ -39,7 +39,7 @@
 					<section id="page-title">
 						<div class="row">
 							<div class="col-sm-8">
-								<h1 class="mainTitle">Manager | Dashboard</h1>
+								<h1 class="mainTitle">Manager | Dashboard | 04/13/2022</h1>
 							</div>
 							<ol class="breadcrumb">
 								<li>
