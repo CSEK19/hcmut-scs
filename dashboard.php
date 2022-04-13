@@ -64,7 +64,7 @@
 										<h2 class="StepTitle">Total People</h2>
 
 										<p class="links cl-effect-1">
-											<a href="doctor-list.php">
+											<a href="#">
 												Present: 
 											</a>
 										</p>
@@ -117,7 +117,7 @@
 										<h2 class="StepTitle">Power</h2>
 
 										<p class="links cl-effect-1">
-											<a href="nurse-list.php">
+											<a href="#">
 												In use in total: kW
 											</a>
 										</p>
