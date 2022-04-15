@@ -32,6 +32,10 @@
 	<link rel="stylesheet" href="assets/css/styles.css">
 	<link rel="stylesheet" href="assets/css/plugins.css">
 	<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
+	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/css/bootstrap-switch-button.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/dist/bootstrap-switch-button.min.js"></script>
+
+
 </head>
 
 <script type="text/javascript">
@@ -139,6 +143,7 @@
 										<th style="text-align:center">Number People</th>
 										<th style="text-align:center">Light System Status</th>
 										<th style="text-align:center">Door Status</th>
+										<th style="text-align:center">Room Status</th>
 										<th style="text-align:center">Image</th>
 										<th style="text-align:center">Light System Controller</th>
 									</tr>
@@ -147,10 +152,13 @@
 										<td id = "num_people"></td>
 										<td id = "light_status"></td>
 										<td id = "door_status"></td>
+										<td id = "room_status"></td>
 										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal" onclick="ShowImage()">Show image</button></td>
 										<td>
-											<button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
-											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button>
+											<!-- <button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
+											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button> -->
+											<input type="checkbox" data-toggle="switchbutton" checked data-onlabel="ON" data-offlabel="OFF" data-onstyle="success" data-offstyle="danger">
+
 
 										</td>
 									</tr>
@@ -164,18 +172,22 @@
 									<tr>
 										<th style="text-align:center">Average People Per Week</th>
 										<th style="text-align:center">Average People Per Month</th>
-										<th style="text-align:center">Total time inuse</th>
+										<th style="text-align:center">Total time of use</th>
 									</tr>
 									<tr>
 										<td id = "ave_people_week"></td>
 										<td id = "ave_people_month"></td>
-										<td id = "total_time_inuse"></td>
+										<td id = "total_time_use"></td>
 										</td>
 									</tr>
 								</table>
-								<div class="d-grid">
+								<!-- <div class="d-grid">
   									<button type="button" id="report_button" class="btn btn-info btn-block">Generate report</button>
+								</div> -->
+								<div class = "center">
+									<button type="button" id="report_button" class="btn btn-info btn-lg">Generate report</button>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -249,6 +261,8 @@
 		let door_status = document.getElementById("door_status")
 		let image = document.getElementById("image_button")
 		let light = document.getElementById("light")
+		let room_status = document.getElementById("room_status")
+
 		// var tmp = "";
 
 		const check = onSnapshot(collection(db, "Room"), (snapshot) => {
@@ -268,6 +282,11 @@
 					light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
 					num_people.innerHTML = record['Number of people']
 					door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
+
+					if(record['Light status'] == true && record ['Door status'] == true)
+						room_status.innerHTML = 'Warning'
+						else 
+						room_status.innerHTML = 'Normal'
                 })
             }
 
@@ -311,6 +330,8 @@
 					light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
 					num_people.innerHTML = record['Number of people']
 					door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
+
+				
 				}
 			}	
 		}

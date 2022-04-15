@@ -11396,3 +11396,8 @@ td.small-width {
 [date-picker] .disabled.active, [date-picker] .disabled.now {
   color: #ffffff !important;
 }
+
+#sample-table-1 #room_list #room_status{
+  color: #a94442;
+}
+

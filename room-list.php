@@ -62,6 +62,7 @@
 											<th class="center">#</th>
 											<th>Room ID</th>
 											<th>Room Name</th>
+											<th>Status</th>
 											<th>View</th>
 										</tr>
 									</thead>
@@ -70,6 +71,7 @@
 											<td class="center">1.</td>
 											<td class="hidden-xs" id = "room_list_id"></td>
 											<td id = "room_list_name"></td>
+											<td id = "room_status"></td>
 											<td><a href=<?php $id = $_COOKIE["id"]; echo "room-view.php?viewid=" . $id ?>><i class="fa fa-eye" style = "margin:auto"></i></a></td>	
 
 										</tr>
@@ -139,6 +141,7 @@
 
 		let room_list_id = document.getElementById("room_list_id")
 		let room_list_name = document.getElementById("room_list_name")
+		let room_status = document.getElementById("room_status")
 		let viewid = "1";
 
 		async function GetRoomList() {
@@ -150,6 +153,15 @@
 				let data = docSnap.data()
 				room_list_id.innerHTML = data['Room id']
 				room_list_name.innerHTML = data['Room name']
+				
+				let record = data['Records']
+				let size = record.length
+				record = record[size - 1]
+
+				if(record['Light status'] == true && record ['Door status'] == true)
+					room_status.innerHTML = 'Warning'
+				else 
+					room_status.innerHTML = 'Normal'
 			}
 		}
 		console.log(viewid);
