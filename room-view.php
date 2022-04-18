@@ -439,9 +439,11 @@
 			return records
 		}
 
+		// function to generate report
 		async function GenerateReport() {
 			let records = await GetRecords(id)
 			console.log(records)
+			// YOUR CODE GOES HERE
 		}
 
 		var report_button = document.getElementById('report_button')
