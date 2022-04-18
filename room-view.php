@@ -9,7 +9,7 @@
 
 <script type="text/javascript" src="js/chart.js"></script>
 <!-- <script type="text/javascript" src="js/chart.min.js"></script> -->
-<script src="js/canvasjs.min.js"></script>
+<!-- <script src="js/canvasjs.min.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
 </script>
 
@@ -38,54 +38,8 @@
 
 </head>
 
-<script type="text/javascript">
-		// let light_on = document.getElementById("light_on_button")
-		// let light_off = document.getElementById("light_off_button")
-		function ControlLight(url = '', data = {}) {
-			$.ajax({
-				url: url,
-				dataType: 'json',
-				type: 'post',
-				headers: {
-					'Content-Type': 'application/json',
-					// 'Host': 'io.adafruit.com',
-					// 'Content-Length': 24,
-					'X-AIO-Key': "<Adafruit key>"
-				},
-				data: JSON.stringify(data),
-				success: function(data, textStatus, jQxhr) {
-					console.log('Successfully update data');
-				},
-				error: function(jqXhr, textStatus, errorThrown) {
-					console.log(errorThrown);
-				}
-			});
-    	}
-		// const api_key= require('adafruit_key.json');
-		function TurnOnLight() {
-			// console.log('haha');
-			let url = 'https://io.adafruit.com/api/v2/KanNan312/feeds/bbc-relay/data';
-			ControlLight(url, {"value": 1});
-		}
-		function TurnOffLight() {
-			let url = 'https://io.adafruit.com/api/v2/KanNan312/feeds/bbc-relay/data';
-			ControlLight(url, {"value": 0});
-		}
-		
-		var tmp = "";
-		// light_on.addEventListener("click", TurnOnLight())
-		// light_off.addEventListener("onClick", TurnOffLight);
-		function ShowImage(){
-			let confirm = document.getElementById("confirm")
-			confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + tmp + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
-			var confirmBox = $("#confirm");
-				confirmBox.find(".message").text("OK");
-				confirmBox.find(".yes").unbind().click(function () {
-					confirmBox.hide();
-				});
-				confirmBox.find(".yes").click("YES");
-				confirmBox.show();
-		}
+<script type="text/javascript">		
+
 	</script>
 
 
@@ -140,8 +94,8 @@
 									</tr>
 									<tr>
 										<th style="text-align:center">Timestamp</th>
-										<th style="text-align:center">Number People</th>
-										<th style="text-align:center">Light System Status</th>
+										<th style="text-align:center">Number of People</th>
+										<th style="text-align:center">Light Status</th>
 										<th style="text-align:center">Door Status</th>
 										<th style="text-align:center">Room Status</th>
 										<th style="text-align:center">Image</th>
@@ -152,32 +106,49 @@
 										<td id = "num_people"></td>
 										<td id = "light_status"></td>
 										<td id = "door_status"></td>
-										<td id = "room_status"></td>
-										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal" onclick="ShowImage()">Show image</button></td>
+										<td id = "room_status" style="font-weight: bold; color: red;"></td>
+										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal">Show image</button></td>
 										<td>
 											<!-- <button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
 											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button> -->
-											<input type="checkbox" data-toggle="switchbutton" checked data-onlabel="ON" data-offlabel="OFF" data-onstyle="success" data-offstyle="danger">
+											<input type="checkbox" data-toggle="switchbutton" checked data-onlabel="ON" data-offlabel="OFF" data-onstyle="success" data-offstyle="danger" id="light_toggle">
 
 
 										</td>
 									</tr>
 								</table>
 
-								<table id="datatable" class="table table-bordered dt-responsive nowrap"
+								<table id="" class="table table-bordered dt-responsive nowrap"
 									style="border-collapse: collapse; border-spacing: 10; width: 100%; text-align:center">
 									<tr align="center">
-										<th colspan="8" style="text-align:left">Statistics Room Data</th>
+										<th colspan="8" style="text-align:left">Room Statistics <span style="font-weight: normal; font-style: italic;" id ="stat_date">123</span></th>
 									</tr>
 									<tr>
-										<th style="text-align:center">Average People Per Week</th>
-										<th style="text-align:center">Average People Per Month</th>
-										<th style="text-align:center">Total time of use</th>
+										<th style="text-align:center">Average Number of People</th>
+										<th style="text-align:center">Total light usage</th>
+									</tr>
+									<tr>
+										<td id = "ave_people_day"></td>
+										<td id = "light_usage_day"></td>
+										</td>
+									</tr>
+								</table>
+
+
+								<table id="advanced_statistics" class="table table-bordered dt-responsive nowrap"
+									style="border-collapse: collapse; border-spacing: 10; width: 100%; text-align:center">
+									<tr align="center">
+										<th colspan="8" style="text-align:left">Advanced Statistics</th>
+									</tr>
+									<tr>
+										<th style="text-align:center">Weekly Average People</th>
+										<th style="text-align:center">Weekly Light Usage</th>
+										<th style="text-align:center">Monthly Light Usage</th>
 									</tr>
 									<tr>
 										<td id = "ave_people_week"></td>
-										<td id = "ave_people_month"></td>
-										<td id = "total_time_use"></td>
+										<td id = "light_usage_week"></td>
+										<td id = "light_usage_month"></td>
 										</td>
 									</tr>
 								</table>
@@ -253,91 +224,203 @@
 		const db = getFirestore(app)
 		let first_time = true 
 
-		let room_id = document.getElementById("room_id")
-		let room_name = document.getElementById("room_name")
-		let timestamp = document.getElementById("timestamp")
-		let num_people = document.getElementById("num_people")
-		let light_status = document.getElementById("light_status")
-		let door_status = document.getElementById("door_status")
-		let image = document.getElementById("image_button")
-		let light = document.getElementById("light")
-		let room_status = document.getElementById("room_status")
+		var room_id = document.getElementById("room_id")
+		var room_name = document.getElementById("room_name")
+		var timestamp = document.getElementById("timestamp")
+		var num_people = document.getElementById("num_people")
+		var light_status = document.getElementById("light_status")
+		var door_status = document.getElementById("door_status")
+		var image_button = document.getElementById("image_button")
+		var img_64 = "";
+		var light = document.getElementById("light")
+		var room_status = document.getElementById("room_status")
+		var light_button = document.getElementById("light_toggle")
 
-		// var tmp = "";
+		// statistics
+		var stat_date = document.getElementById("stat_date")
+		var ave_people_day = document.getElementById("ave_people_day")
+		var light_usage_day = document.getElementById("light_usage_day")
 
-		const check = onSnapshot(collection(db, "Room"), (snapshot) => {
-            if (snapshot.docs.length > 0) {
-                snapshot.docs.forEach(doc => {
-                    // doc is a DocumentSnapshot with actual data
-                    const data = doc.data();
-                    console.log(data)
-					room_id.innerHTML = data['Room id']
-					room_name.innerHTML = data['Room name']
+		var ave_people_week = document.getElementById("ave_people_week")
+		var light_usage_week = document.getElementById("light_usage_week")
+		var light_usage_month = document.getElementById("light_usage_month")
 
-					let record = data['Records']
-					let size = record.length
-					record = record[size - 1]
-
-					timestamp.innerHTML = record['Time stamp'].toDate().toString().split('GMT')[0]
-					light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
-					num_people.innerHTML = record['Number of people']
-					door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
-
-					if(record['Light status'] == true && record ['Door status'] == true)
-						room_status.innerHTML = 'Warning'
-						else 
-						room_status.innerHTML = 'Normal'
-                })
-            }
-
-        });
-		
-	
-		const checkImage = onSnapshot(collection(db, "Frame"), (snapshot) => {
-            if (snapshot.docs.length > 0) {
-                snapshot.docs.forEach(doc => {
-                    // doc is a DocumentSnapshot with actual data
-                    const data = doc.data();
-					console.log('New frame')
-					tmp = data['frame64']
-					// console.log(frame)
-					// update image
-					// tmp = frame
-					// confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + frame + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
-                })
-            }
-		});
-
-		async function GetRoom() {
-			if (first_time === true)
-			{
-				first_time = false;
-				var ref = doc(db, "Room", "1")
-				console.log(ref)
-				const docSnap = await getDoc(ref)
-				console.log(docSnap)
-				if (docSnap.exists()) {
-					let data = docSnap.data()
-
-					room_id.innerHTML = data['Room id']
-					room_name.innerHTML = data['Room name']
-
-					let record = data['Records']
-					let size = record.length
-					record = record[size - 1]
-
-					timestamp.innerHTML = record['Time stamp'].toDate().toString().split('GMT')[0]
-					light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
-					num_people.innerHTML = record['Number of people']
-					door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
-
-				
-				}
-			}	
+		// function to find out the view id
+		function findGetParameter(parameterName) {
+			var result = null, tmp = [];
+			location.search.substr(1).split("&").forEach(function (item) {
+				tmp = item.split("=");
+				if (tmp[0] === parameterName)
+					result = decodeURIComponent(tmp[1]);
+			});
+    		return result;
 		}
 
-		// image_button.addEventListener("onClick", GetImage())
 
+
+		// send light control signal to adafruit
+		function ControlLight(url = '', data = {}) {
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				type: 'post',
+				headers: {
+					'Content-Type': 'application/json',
+					// 'Host': 'io.adafruit.com',
+					// 'Content-Length': 24,
+					'X-AIO-Key': "ADAFRUIT"
+				},
+				data: JSON.stringify(data),
+				success: function(data, textStatus, jQxhr) {
+					console.log('Successfully update data');
+				},
+				error: function(jqXhr, textStatus, errorThrown) {
+					console.log(errorThrown);
+				}
+			});
+    	}
+
+		// event listener for light toggler
+		light_button.addEventListener('change', function() {
+			let url = 'https://io.adafruit.com/api/v2/KanNan312/feeds/bbc-relay/data';
+			if(this.checked) {
+				console.log("ON");
+				ControlLight(url, {"value": 1});
+			}
+			else {
+				console.log("OFF");
+				ControlLight(url, {"value": 0});
+			}
+		})
+		
+		function convertLightUsageTime(seconds) {
+			let hour = Math.floor(seconds / 3600)
+			let min = Math.floor( (seconds % 3600) / 60)
+			let res = ""
+			if (hour > 0) {
+				if (min > 0) {
+					res = hour.toString() + " hour(s) " + min.toString() + " minute(s)"
+				}
+				else {
+					res = hour.toString() + " hour(s)"
+				}
+			}
+			else {
+				res = min.toString() + " minute(s)"
+			}
+			return res
+		}
+		var id = findGetParameter('viewid');
+		// listen for changes in document
+		const check = onSnapshot(doc(db, "Room", id), (doc) => {
+				if (doc.exists() == false) {
+					console.log("No statistics")
+					return
+				}
+				const data = doc.data()
+
+				// room information
+				room_id.innerHTML = data['Id']
+				room_name.innerHTML = data['Name']
+				
+				// update current status
+				let record = data['Status']
+				timestamp.innerHTML = record['Timestamp'].toDate().toString().split('GMT')[0]
+				light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
+				num_people.innerHTML = record['Number of people']
+				door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
+				let alert = false;
+				// Record["Alert"]
+				if (alert == true) {
+					room_status.innerHTML = 'Please close the door!'
+					room_status.style.color = "red"
+				}
+				else {
+					room_status.innerHTML = 'Normal'
+					room_status.style.color = "red";
+				}
+
+				// update img_64 string
+				let frame_data = data['Frame']
+				img_64 = frame_data['Frame64']
+
+				// update statistics
+				let statistics = data['Statistics']
+				let last_stat = statistics[statistics.length - 1]
+				console.log(last_stat)
+				// set HTML element
+				stat_date.innerHTML = last_stat['Date']
+				ave_people_day.innerHTML = Math.round(last_stat['People'] * 10) / 10
+
+				let time_converted = convertLightUsageTime(last_stat['Usage'])
+				light_usage_day.innerHTML = time_converted
+
+				// Advanced statistics ...
+				let ave_people = 0
+				let light_week = 0
+				let light_month = 0
+				let day_cnt = 0
+				statistics.slice(-7).forEach((stat) => {
+					day_cnt += 1
+					ave_people += stat['People']
+					light_week += stat['Usage']
+				})
+				statistics.slice(-7).forEach((stat) => {
+					light_month += stat['Usage']
+				})
+
+				ave_people_week.innerHTML = Math.round(ave_people / day_cnt * 10) / 10
+				light_usage_week.innerHTML = convertLightUsageTime(light_week)
+				light_usage_month.innerHTML = convertLightUsageTime(light_month)
+
+
+		});
+
+
+		// const check = onSnapshot(collection(db, "Room"), (snapshot) => {
+        //     if (snapshot.docs.length > 0) {
+        //         snapshot.docs.forEach(doc => {
+        //             // doc is a DocumentSnapshot with actual data
+        //             const data = doc.data();
+        //             console.log(data)
+		// 			room_id.innerHTML = data['Room id']
+		// 			room_name.innerHTML = data['Room name']
+
+		// 			let record = data['Records']
+		// 			let size = record.length
+		// 			record = record[size - 1]
+
+		// 			timestamp.innerHTML = record['Time stamp'].toDate().toString().split('GMT')[0]
+		// 			light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
+		// 			num_people.innerHTML = record['Number of people']
+		// 			door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
+
+		// 			if(record['Light status'] == true && record ['Door status'] == true)
+		// 				room_status.innerHTML = 'Warning'
+		// 				else 
+		// 				room_status.innerHTML = 'Normal'
+        //         })
+        //     }
+
+        // });
+		
+	
+
+		// images
+		function ShowImage(){
+			console.log("Display image")
+			let confirm = document.getElementById("confirm")
+			confirm.innerHTML = '<div class="modal fade" id="myModal" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Room Image</h4> </div> <div class="modal-body text-center"> <img class = "img-responsive"  src="data:image/jpg;base64,' + img_64 + '"\width="100%" height="100%"/> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> </div> </div> </div> </div>'
+			var confirmBox = $("#confirm");
+				confirmBox.find(".message").text("OK");
+				confirmBox.find(".yes").unbind().click(function () {
+					confirmBox.hide();
+				});
+				confirmBox.find(".yes").click("YES");
+				confirmBox.show();
+		}
+
+		image_button.addEventListener('click', ShowImage)
 
 	</script>
 

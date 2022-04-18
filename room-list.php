@@ -26,7 +26,6 @@
 
 <body>
 	<div id="app">
-		<a id="button" class="btn btn-primary flex" href="room-list.php" target=_blank >Button</a>
 
 		<?php include('include/sidebar.php');?>
 		<div class="app-content">
@@ -54,8 +53,6 @@
 							<div class="col-md-12">
 								<h5 class="over-title margin-bottom-15">Room <span class="text-bold">List</span>
 								</h5>
-
-								
 								<table class="table table-hover" id="sample-table-1">
 									<thead>
 										<tr>
@@ -69,10 +66,18 @@
 									<tbody id = "room_list">	
 										<tr>
 											<td class="center">1.</td>
-											<td class="hidden-xs" id = "room_list_id"></td>
-											<td id = "room_list_name"></td>
-											<td id = "room_status"></td>
-											<td><a href=<?php $id = $_COOKIE["id"]; echo "room-view.php?viewid=" . $id ?>><i class="fa fa-eye" style = "margin:auto"></i></a></td>	
+											<td class="hidden-xs" id = "room_id_1">1</td>
+											<td id = "room_name_1">Lab ABC</td>
+											<td id = "room_status">Active</td>
+											<td><a href="room-view.php?viewid=1"><i class="fa fa-eye" style = "margin:auto"></i></a></td>		
+
+										</tr>
+										<tr>
+											<td class="center">2.</td>
+											<td class="hidden-xs" id = "room_id_2">2</td>
+											<td id = "room_name_2"> Lab DEF</td>
+											<td id = "room_status_2">Closed</td>
+											<td><a href="room-view.php?viewid=2"><i class="fa fa-eye" style = "margin:auto"></i></a></td>	
 
 										</tr>
 									</tbody>
@@ -139,43 +144,13 @@
 		const app = initializeApp(firebaseConfig)
 		const db = getFirestore(app)
 
-		let room_list_id = document.getElementById("room_list_id")
-		let room_list_name = document.getElementById("room_list_name")
-		let room_status = document.getElementById("room_status")
-		let viewid = "1";
-
-		async function GetRoomList() {
-			
-			var ref = doc(db, "Room", "1")
-			const docSnap = await getDoc(ref)
-
-			if (docSnap.exists()) {
-				let data = docSnap.data()
-				room_list_id.innerHTML = data['Room id']
-				room_list_name.innerHTML = data['Room name']
-				
-				let record = data['Records']
-				let size = record.length
-				record = record[size - 1]
-
-				if(record['Light status'] == true && record ['Door status'] == true)
-					room_status.innerHTML = 'Warning'
-				else 
-					room_status.innerHTML = 'Normal'
-			}
-		}
-		console.log(viewid);
-		document.cookie = "id=" + viewid;
+		// let room_list_id = document.getElementById("room_list_id")
+		// let room_list_name = document.getElementById("room_list_name")
+		// let room_status = document.getElementById("room_status")
 
 
-		button.addEventListener("onClick", GetRoomList())
 	</script>
-	<!-- <script>
-		function GetRoomView(){
-			window.location.href = 'room-view.php';
-		}
-		button.addEventListener("onClick", GetRoomView())
-	</script> -->
+
 	<!-- end: JavaScript Event Handlers for this page -->
 	<!-- end: CLIP-TWO JAVASCRIPTS -->
 </body>

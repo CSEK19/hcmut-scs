@@ -64,10 +64,8 @@
 										<h2 class="StepTitle">Total People</h2>
 
 										<p class="links cl-effect-1">
-											<a href="#">
 												Present: 
 												<td id = "total_people"></td>
-											</a>
 										</p>
 									</div>
 								</div>
@@ -82,11 +80,8 @@
 										<h2 class="StepTitle">Room Active</h2>
 
 										<p class="links cl-effect-1">
-											<a href="#">
-												In use: 
 												<td id = "num_active_room"></td>
-												/ 10
-											</a>
+												1 / 2
 										</p>
 									</div>
 								</div>
@@ -101,15 +96,11 @@
 										<h2 class="StepTitle">Average People</h2>
 
 										<p class="links cl-effect-1">
-											<a href="#">
-												Weekly: 
-												<td id = "ave_people_week"></td>
-											</a>
+												Today: 
+												<td id = "ave_people_day"></td>
 											|
-											<a href="#">
-												Monthly:
-												<td id = "ave_people_month"></td> 
-											</a>
+												This week:
+												<td id = "ave_people_week"></td> 
 										</p>
 									</div>
 								</div>
@@ -123,14 +114,11 @@
 										<span class="fa-stack fa-2x"> <i
 												class="fa fa-square fa-stack-2x text-primary"></i> <i
 												class="fa fa-power-off fa-stack-1x fa-inverse"></i> </span>
-										<h2 class="StepTitle">Power</h2>
+										<h2 class="StepTitle">Light usage</h2>
 
 										<p class="links cl-effect-1">
-											<a href="#">
-												In use in total: 
-												<td id = "total_power"></td>
-												kW
-											</a>
+												Today: <td id = "light_usage_day"></td> |
+												This week: <td id = "light_usage_week"></td>
 										</p>
 									</div>
 								</div>
