@@ -268,7 +268,7 @@
 					'Content-Type': 'application/json',
 					// 'Host': 'io.adafruit.com',
 					// 'Content-Length': 24,
-					'X-AIO-Key': "ADAFRUIT"
+					'X-AIO-Key': "aio_lfcG476PkTPt4ceAkccAvKJDXJYn"
 				},
 				data: JSON.stringify(data),
 				success: function(data, textStatus, jQxhr) {

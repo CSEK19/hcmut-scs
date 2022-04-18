@@ -64,8 +64,10 @@
 										<h2 class="StepTitle">Total People</h2>
 
 										<p class="links cl-effect-1">
-												Present: 
-												<td id = "total_people"></td>
+												<td >
+													<p id = "total_people"></p>
+												</td>
+												
 										</p>
 									</div>
 								</div>
@@ -78,10 +80,15 @@
 												class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa   fa-desktop
  fa-stack-1x fa-inverse"></i> </span>
 										<h2 class="StepTitle">Room Active</h2>
-
 										<p class="links cl-effect-1">
-												<td id = "num_active_room"></td>
-												1 / 2
+												<td >
+													<p>
+														<span id ="num_active_room"></span>
+														/
+														<span id ="total_room">  </span>
+													</p>
+												</td>
+												
 										</p>
 									</div>
 								</div>
@@ -93,14 +100,18 @@
 										<span class="fa-stack fa-2x"> <i
 												class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa   fa-calendar
  fa-stack-1x fa-inverse"></i> </span>
-										<h2 class="StepTitle">Average People</h2>
+										<h2 class="StepTitle">Average N.o People</h2>
 
 										<p class="links cl-effect-1">
 												Today: 
-												<td id = "ave_people_day"></td>
-											|
+												<td>
+													<p id = "ave_people_day"></p>
+												</td>
+												|
 												This week:
-												<td id = "ave_people_week"></td> 
+												<td>
+													<p id = "ave_people_week"></p>
+												</td>
 										</p>
 									</div>
 								</div>
@@ -114,17 +125,21 @@
 										<span class="fa-stack fa-2x"> <i
 												class="fa fa-square fa-stack-2x text-primary"></i> <i
 												class="fa fa-power-off fa-stack-1x fa-inverse"></i> </span>
-										<h2 class="StepTitle">Light usage</h2>
-
+										<h2 class="StepTitle">Total Light usage</h2>
 										<p class="links cl-effect-1">
-												Today: <td id = "light_usage_day"></td> |
-												This week: <td id = "light_usage_week"></td>
+												Today: 
+												<td>
+													<p id = "light_usage_day"></p>
+												</td>
+												|
+												This week: 
+												<td>
+													<p id = "light_usage_week"></p>
+												</td>
 										</p>
 									</div>
 								</div>
 							</div>
-
-
 
 
 
@@ -174,7 +189,7 @@
 			</script>
 
 			<script type="module">
-				import { collection, getDoc, getDocs, getFirestore, doc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
+				import { collection, getDoc, getDocs, getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
 				import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"
 
 				const firebaseConfig = {
@@ -190,24 +205,87 @@
 				const app = initializeApp(firebaseConfig)
 				const db = getFirestore(app)
 
-				let num_active = document.getElementById("num_active")
-				let num_people = document.getElementById("num_people")
-				let num_kw = document.getElementById("num_kw")
+				var num_active_room = document.getElementById("num_active_room")
+				var total_room = document.getElementById("total_room")
+				var total_people = document.getElementById("total_people")
+				var ave_people_day = document.getElementById("ave_people_day")
+				var ave_people_week = document.getElementById("ave_people_week")
+				var light_usage_day = document.getElementById("light_usage_day")
+				var light_usage_week = document.getElementById("light_usage_week")
 
-				async function GetDoc() {
-					var ref = doc(db, "Room", "1")
-					const docSnap = await getDoc(ref)
-
-					if (docSnap.exists()) {
-						let record = docSnap.data()['Records']
-						let size = record.length
-						num_active.innerHTML = record[size-1]['Door status'] 
-						
-						console.log()
+				console.log(total_people)
+				function convertLightUsageTime(seconds) {
+					let hour = Math.floor(seconds / 3600)
+					let min = Math.floor( (seconds % 3600) / 60)
+					let res = ""
+					if (hour > 0) {
+						if (min > 0) {
+							res = hour.toString() + " hour(s) " + min.toString() + " minute(s)"
+						}
+						else {
+							res = hour.toString() + " hour(s)"
+						}
 					}
+					else {
+						res = min.toString() + " minute(s)"
+					}
+					return res
 				}
+				
+				const check = onSnapshot(collection(db, "Room"), (snapshot) => {
+					let n_people = 0	// number of people currently
+					let people_day = 0  // average number of people today
+					let people_week = 0 // average number of people this weke
+					let light_day = 0
+					let light_week = 0
+					let n_active = 1
+					let n_room = snapshot.docs.length
+					total_room.innerHTML = n_room
+					if (n_room > 0) {
+						snapshot.docs.forEach(doc => {
+							const data = doc.data()
+							let record = data['Status']
+							n_people += record['Number of people']
 
-				tmp_button.addEventListener("click", GetDoc)
+							// update statistics
+							let statistics = data['Statistics']
+							let last_stat = statistics[statistics.length - 1]
+							
+							// Average people today, today light usage today
+							people_day += Math.round(last_stat['People'] * 10) / 10
+							light_day += last_stat['Usage']
+
+							// Advanced statistics ...
+							let ave_people = 0
+							let day_cnt = 0
+						
+							// calculate aggregate statistics in the last 7 day
+							statistics.slice(-7).forEach((stat) => {
+								day_cnt += 1
+								ave_people += stat['People']
+								// Total light usage per week
+								light_week += stat['Usage']
+							})
+							ave_people = Math.round(ave_people / day_cnt * 10) / 10
+							// Average people per week
+							people_week += ave_people
+						})
+					}
+					// calculate average among rooms
+					people_day = Math.round(people_day / n_room * 10) / 10
+					people_day = Math.round(people_week / n_room * 10) / 10
+
+					// Update HTML element
+					console.log(num_active_room)
+					num_active_room.innerHTML = n_active
+					total_people.innerHTML = n_people
+					ave_people_day.innerHTML = people_day
+					ave_people_week.innerHTML = people_week
+					light_usage_day.innerHTML = convertLightUsageTime(light_day)
+					light_usage_week.innerHTML = convertLightUsageTime(light_week)
+
+
+				});
 			</script>
 
 
