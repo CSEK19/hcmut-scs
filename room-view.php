@@ -106,12 +106,14 @@
 										<td id = "num_people"></td>
 										<td id = "light_status"></td>
 										<td id = "door_status"></td>
-										<td id = "room_status" style="font-weight: bold; color: red;"></td>
+										<td>
+											<p id = "room_status" style="font-weight: bold; margin:0"></p>
+										</td>
 										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal">Show image</button></td>
 										<td>
 											<!-- <button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
 											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button> -->
-											<input type="checkbox" data-toggle="switchbutton" checked data-onlabel="ON" data-offlabel="OFF" data-onstyle="success" data-offstyle="danger" id="light_toggle">
+											<input type="checkbox" value="0" data-toggle="switchbutton" checked data-onlabel="ON" data-offlabel="OFF" data-onstyle="success" data-offstyle="danger" id="light_toggle">
 
 
 										</td>
@@ -268,7 +270,7 @@
 					'Content-Type': 'application/json',
 					// 'Host': 'io.adafruit.com',
 					// 'Content-Length': 24,
-					'X-AIO-Key': "aio_lfcG476PkTPt4ceAkccAvKJDXJYn"
+					'X-AIO-Key': ""
 				},
 				data: JSON.stringify(data),
 				success: function(data, textStatus, jQxhr) {
@@ -326,18 +328,22 @@
 				// update current status
 				let record = data['Status']
 				timestamp.innerHTML = record['Timestamp'].toDate().toString().split('GMT')[0]
+				// if (light_button.checked != record['Light status']) {
+				// 	console.log('kaka')
+				// 	light_button.click()
+				// }
 				light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
 				num_people.innerHTML = record['Number of people']
 				door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
 				let alert = false;
 				// Record["Alert"]
-				if (alert == true) {
+				if (record["Alert"] == true) {
 					room_status.innerHTML = 'Please close the door!'
 					room_status.style.color = "red"
 				}
 				else {
 					room_status.innerHTML = 'Normal'
-					room_status.style.color = "red";
+					room_status.style.color = "green";
 				}
 
 				// update img_64 string
