@@ -426,6 +426,28 @@
 
 		image_button.addEventListener('click', ShowImage)
 
+
+		// generate report
+		async function GetRecords(view_id) {
+			let records = []
+			let collection_ref = collection(db, "Room/" + view_id + "/Day")
+			const snapshot = await getDocs(collection_ref)
+			snapshot.forEach((doc) => {
+				let data = doc.data()
+				records = records.concat(data["Records"])
+			})
+			return records
+		}
+
+		async function GenerateReport() {
+			let records = await GetRecords(id)
+			console.log(records)
+		}
+
+		var report_button = document.getElementById('report_button')
+		report_button.addEventListener('click', GenerateReport)
+
+
 	</script>
 
 	<!-- end: JavaScript Event Handlers for this page -->

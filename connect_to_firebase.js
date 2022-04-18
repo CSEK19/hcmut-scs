@@ -30,7 +30,7 @@ async function GetRoom() {
         let data = docSnap.data()
         room_id.innerHTML = data['Room id']
         room_name.innerHTML = data['Room name']
-
+        
         let record = data['Records']
         let size = record.length
         record = record[size - 1]
