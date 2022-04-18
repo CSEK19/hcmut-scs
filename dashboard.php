@@ -103,14 +103,11 @@
 										<h2 class="StepTitle">Average N.o People</h2>
 
 										<p class="links cl-effect-1">
-												Today: 
 												<td>
-													<p id = "ave_people_day"></p>
+													<p> Today: <span id = "ave_people_day"></span> </p>
 												</td>
-												|
-												This week:
 												<td>
-													<p id = "ave_people_week"></p>
+													<p> This week: <span id = "ave_people_week"></span> </p>
 												</td>
 										</p>
 									</div>
@@ -127,14 +124,11 @@
 												class="fa fa-power-off fa-stack-1x fa-inverse"></i> </span>
 										<h2 class="StepTitle">Total Light usage</h2>
 										<p class="links cl-effect-1">
-												Today: 
 												<td>
-													<p id = "light_usage_day"></p>
+													<p>Today: <span id = "light_usage_day"></span></p>
 												</td>
-												|
-												This week: 
 												<td>
-													<p id = "light_usage_week"></p>
+													<p>This week: <span id = "light_usage_week"></span></p>
 												</td>
 										</p>
 									</div>
