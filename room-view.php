@@ -113,9 +113,7 @@
 										<td>
 											<!-- <button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
 											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button> -->
-											<input type="checkbox" value="0" data-toggle="switchbutton" checked data-onlabel="ON" data-offlabel="OFF" data-onstyle="success" data-offstyle="danger" id="light_toggle">
-
-
+											<input type="checkbox" value="0" data-toggle="switchbutton" checked data-onlabel="OFF" data-offlabel="ON" data-onstyle="danger" data-offstyle="success" id="light_toggle">
 										</td>
 									</tr>
 								</table>

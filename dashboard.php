@@ -63,11 +63,9 @@
 												class="fa fa-users fa-stack-1x fa-inverse"></i> </span>
 										<h2 class="StepTitle">Total People</h2>
 
-										<p class="links cl-effect-1">
-												<td >
-													<p id = "total_people"></p>
-												</td>
-												
+										<p class="links cl-effect-1 lead">
+											<a href="#" id = "total_people">
+											</a>	
 										</p>
 									</div>
 								</div>
@@ -80,15 +78,18 @@
 												class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa   fa-desktop
  fa-stack-1x fa-inverse"></i> </span>
 										<h2 class="StepTitle">Room Active</h2>
-										<p class="links cl-effect-1">
-												<td >
-													<p>
-														<span id ="num_active_room"></span>
-														/
-														<span id ="total_room">  </span>
-													</p>
-												</td>
-												
+										<p class="links cl-effect-1 lead">
+											<a href ="#">
+												<td>
+													<span id ="num_active_room"></span>
+														
+											</a>
+											/
+											<a href = "#">
+											<td>
+												<span id ="total_room">  </span>
+											</td>
+											</a>
 										</p>
 									</div>
 								</div>
@@ -101,14 +102,19 @@
 												class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa   fa-calendar
  fa-stack-1x fa-inverse"></i> </span>
 										<h2 class="StepTitle">Average N.o People</h2>
-
-										<p class="links cl-effect-1">
+										<p class="links cl-effect-1 lead">
+											Today: 
+											<a href ="#">
 												<td>
-													<p> Today: <span id = "ave_people_day"></span> </p>
+													<span id = "ave_people_day"></span>
 												</td>
+											</a>
+											| &nbsp;&nbsp; This week:
+											<a href ="#">
 												<td>
-													<p> This week: <span id = "ave_people_week"></span> </p>
+													<span id = "ave_people_week"></span>
 												</td>
+											</a>
 										</p>
 									</div>
 								</div>
@@ -123,13 +129,20 @@
 												class="fa fa-square fa-stack-2x text-primary"></i> <i
 												class="fa fa-power-off fa-stack-1x fa-inverse"></i> </span>
 										<h2 class="StepTitle">Total Light usage</h2>
-										<p class="links cl-effect-1">
+										<p class="links cl-effect-1 lead">
+											Today:
+											<a href="#">
 												<td>
-													<p>Today: <span id = "light_usage_day"></span></p>
+													<span id = "light_usage_day"></span>
 												</td>
+											</a>
+											<br>
+											This week: 
+											<a href = "#">
 												<td>
-													<p>This week: <span id = "light_usage_week"></span></p>
+													<span id = "light_usage_week"></span>
 												</td>
+											</a>
 										</p>
 									</div>
 								</div>
