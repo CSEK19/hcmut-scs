@@ -44,7 +44,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="logout.php">
+										<a id="logout">
 											Log Out
 										</a>
 									</li>
@@ -60,6 +60,32 @@
 						<!-- end: MENU TOGGLER FOR MOBILE DEVICES -->
 					</div>
 				
-					
+					<script type="module">
+						import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+						import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"
+						const firebaseConfig = {
+							apiKey: "AIzaSyBSt9DbBuwEPjJglqs4YO_toKEvgnn47Vw",
+							authDomain: "smartiot-4467f.firebaseapp.com",
+							projectId: "smartiot-4467f",
+							storageBucket: "smartiot-4467f.appspot.com",
+							messagingSenderId: "951613520553",
+							appId: "1:951613520553:web:9ae29d867493555d3507b8",
+							measurementId: "G-C2RLD605K5"
+						}
+
+						const app = initializeApp(firebaseConfig)
+						const auth = getAuth();
+						
+						document.getElementById('logout').addEventListener('click', (e) => {
+							signOut(auth).then(() => {
+								window.location.replace("index.php")
+						// Sign-out successful.
+							}).catch((error) => {
+						// An error happened.
+						});
+
+						});
+					</script>
 					<!-- end: NAVBAR COLLAPSE -->
 				</header>
+

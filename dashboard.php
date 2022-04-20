@@ -196,8 +196,8 @@
 			</script>
 
 			<script type="module">
-				import { collection, getDoc, getDocs, getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
-				import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"
+				import { collection, getDoc, getDocs, getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"
+				import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"
 
 				const firebaseConfig = {
 					apiKey: "AIzaSyBSt9DbBuwEPjJglqs4YO_toKEvgnn47Vw",
@@ -294,7 +294,33 @@
 
 				});
 			</script>
+			<script type="module">
+			import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"
+			import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"
 
+			const firebaseConfig = {
+				apiKey: "AIzaSyBSt9DbBuwEPjJglqs4YO_toKEvgnn47Vw",
+				authDomain: "smartiot-4467f.firebaseapp.com",
+				projectId: "smartiot-4467f",
+				storageBucket: "smartiot-4467f.appspot.com",
+				messagingSenderId: "951613520553",
+				appId: "1:951613520553:web:9ae29d867493555d3507b8",
+				measurementId: "G-C2RLD605K5"
+			}
+
+			const app = initializeApp(firebaseConfig)
+			const auth = getAuth();
+
+			const user = auth.currentUser;
+			onAuthStateChanged(auth, (user) => {
+				if (user) {
+					
+				} else {
+					window.location.replace("index.php")
+				}
+			});
+			
+		</script>
 
 			<!-- end: JavaScript Event Handlers for this page -->
 			<!-- end: CLIP-TWO JAVASCRIPTS -->
