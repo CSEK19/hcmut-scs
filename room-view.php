@@ -113,7 +113,7 @@
 										<td>
 											<!-- <button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
 											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button> -->
-											<input type="checkbox" value="0" data-toggle="switchbutton" checked data-onlabel="OFF" data-offlabel="ON" data-onstyle="danger" data-offstyle="success" id="light_toggle">
+											<input type="checkbox" value="0" data-toggle="switchbutton" checked data-onlabel="ON" data-offlabel="OFF" data-onstyle="success" data-offstyle="danger" id="light_toggle">
 										</td>
 									</tr>
 								</table>
@@ -354,7 +354,7 @@
 				console.log(last_stat)
 				// set HTML element
 				stat_date.innerHTML = last_stat['Date']
-				ave_people_day.innerHTML = Math.round(last_stat['People'] * 10) / 10
+				ave_people_day.innerHTML = Math.round(last_stat['People'])
 
 				let time_converted = convertLightUsageTime(last_stat['Usage'])
 				light_usage_day.innerHTML = time_converted
@@ -373,7 +373,7 @@
 					light_month += stat['Usage']
 				})
 
-				ave_people_week.innerHTML = Math.round(ave_people / day_cnt * 10) / 10
+				ave_people_week.innerHTML = Math.round(ave_people / day_cnt)
 				light_usage_week.innerHTML = convertLightUsageTime(light_week)
 				light_usage_month.innerHTML = convertLightUsageTime(light_month)
 
@@ -442,8 +442,40 @@
 		// function to generate report
 		async function GenerateReport() {
 			let records = await GetRecords(id)
-			console.log(records)
-			// YOUR CODE GOES HERE
+			// console.log(records)
+			var string = "Timestamp,Door status,Light status,Number of people\n"
+			for (let idx = 0; idx < records.length; idx++){
+				var Door_status, Light_status
+				if (records[idx]['Door status']){
+					Door_status = "Open";
+				}
+				else{
+					Door_status = "Close";
+				}
+				if (records[idx]['Light status']){
+					Light_status = "On";
+				}
+				else{
+					Light_status = "Off";
+				}
+				string = string +records[idx]['Timestamp'].toDate()+','+ Door_status+','+Light_status+','+String(records[idx]['Number of people']) + '\n'
+			}
+			console.log(string)
+			var file_name = 'report.csv'
+			download(file_name,string)
+		}
+		
+		function download(filename, text) {
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+			element.setAttribute('download', filename);
+
+			element.style.display = 'none';
+			document.body.appendChild(element);
+
+			element.click();
+
+			document.body.removeChild(element);
 		}
 
 		var report_button = document.getElementById('report_button')

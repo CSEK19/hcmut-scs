@@ -279,8 +279,8 @@
 						})
 					}
 					// calculate average among rooms
-					people_day = Math.round(people_day / n_room * 10) / 10
-					people_day = Math.round(people_week / n_room * 10) / 10
+					people_day = Math.round(people_day / n_room)
+					people_day = Math.round(people_week / n_room) 
 
 					// Update HTML element
 					console.log(num_active_room)
