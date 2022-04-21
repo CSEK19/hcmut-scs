@@ -109,7 +109,7 @@
 										<td>
 											<p id = "room_status" style="font-weight: bold; margin:0"></p>
 										</td>
-										<td><button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal">Show image</button></td>
+										<td id ='image_button_cell'></td>
 										<td>
 											<!-- <button class="btn btn-success" id="light_on_button" onclick="TurnOnLight()">ON</button>
 											<button class="btn btn-danger" id="light_off_button" onclick="TurnOffLight()">OFF</button> -->
@@ -210,6 +210,8 @@
 		import { collection, getDoc, getDocs, getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"
 
+		var data_fetched = false
+
 		const firebaseConfig = {
 			apiKey: "AIzaSyBSt9DbBuwEPjJglqs4YO_toKEvgnn47Vw",
 			authDomain: "smartiot-4467f.firebaseapp.com",
@@ -230,7 +232,8 @@
 		var num_people = document.getElementById("num_people")
 		var light_status = document.getElementById("light_status")
 		var door_status = document.getElementById("door_status")
-		var image_button = document.getElementById("image_button")
+		// var image_button = document.getElementById("image_button")
+		var image_button_cell = document.getElementById("image_button_cell")
 		var img_64 = "";
 		var light = document.getElementById("light")
 		var room_status = document.getElementById("room_status")
@@ -318,6 +321,12 @@
 					return
 				}
 				const data = doc.data()
+				if (data_fetched == false) {
+					data_fetched = true
+					image_button_cell.innerHTML = '<button class="btn btn-primary" id="image_button" data-toggle="modal" data-target="#myModal">Show image</button>'
+					var image_button = document.getElementById("image_button")
+					image_button.addEventListener('click', ShowImage)
+				}
 
 				// room information
 				room_id.innerHTML = data['Id']
@@ -326,10 +335,10 @@
 				// update current status
 				let record = data['Status']
 				timestamp.innerHTML = record['Timestamp'].toDate().toString().split('GMT')[0]
-				// if (light_button.checked != record['Light status']) {
-				// 	console.log('kaka')
-				// 	light_button.click()
-				// }
+				if (light_button.checked != record['Light status']) {
+					light_button.checked = record['Light status']
+					light_button.click()
+				}
 				light_status.innerHTML = (record['Light status'] == true) ? 'ON' : 'OFF'
 				num_people.innerHTML = record['Number of people']
 				door_status.innerHTML = (record['Door status'] == true) ? 'OPEN' : 'CLOSE'
@@ -424,7 +433,7 @@
 				confirmBox.show();
 		}
 
-		image_button.addEventListener('click', ShowImage)
+		
 
 
 		// generate report
